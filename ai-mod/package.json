@@ -1,19 +1,23 @@
 {
-	"name": "still-sky-5a50",
-	"version": "0.0.0",
-	"private": true,
+	"name": "content-moderator-api",
+	"version": "1.0.0",
+	"description": "AI-powered content moderation API",
+	"main": "src/index.ts",
 	"scripts": {
-		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
-		"start": "wrangler dev",
-		"test": "vitest",
-		"cf-typegen": "wrangler types"
+		"deploy": "wrangler deploy",
+		"tail": "wrangler tail"
 	},
+	"keywords": [
+		"cloudflare",
+		"workers",
+		"ai",
+		"moderation"
+	],
+	"author": "",
+	"license": "MIT",
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "^0.8.19",
-		"@cloudflare/workers-types": "^4.20251106.1",
-		"typescript": "^5.5.2",
-		"vitest": "~3.2.0",
-		"wrangler": "^4.46.0"
+		"@cloudflare/workers-types": "^4.20241127.0",
+		"typescript": "^5.3.3"
 	}
 }

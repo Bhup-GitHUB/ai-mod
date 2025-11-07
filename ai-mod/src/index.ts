@@ -10,9 +10,3 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
-
-export default {
-	async fetch(request, env, ctx): Promise<Response> {
-		return new Response('Hello World!');
-	},
-} satisfies ExportedHandler<Env>;
