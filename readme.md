@@ -64,6 +64,12 @@ Check API health status.
 ## Development
 
 ```bash
+# Check project setup and configuration
+npm run check
+
+# Run TypeScript type checking
+npm run typecheck
+
 # Run locally
 npm run dev
 
@@ -72,6 +78,25 @@ npm run deploy
 
 # View logs
 npm run tail
+
+# Run tests
+npm test
+```
+
+### Project Health Check
+
+Run `npm run check` to validate your project setup. This command will:
+
+- ✅ Verify all required files exist
+- ✅ Check dependencies are configured
+- ✅ Validate TypeScript compilation
+- ✅ Verify Wrangler configuration
+- ✅ Check test setup
+
+**Windows users** can also run:
+
+```powershell
+.\scripts\check.ps1
 ```
 
 ## Example Usage

@@ -7,7 +7,9 @@
 		"dev": "wrangler dev",
 		"deploy": "wrangler deploy",
 		"tail": "wrangler tail",
-		"test": "vitest"
+		"test": "vitest",
+		"check": "node scripts/check.js",
+		"typecheck": "tsc --noEmit"
 	},
 	"keywords": [
 		"cloudflare",
