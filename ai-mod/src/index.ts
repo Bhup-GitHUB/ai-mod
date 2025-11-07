@@ -1,12 +1,33 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Bind resources to your worker in `wrangler.jsonc`. After adding bindings, a type definition for the
- * `Env` object can be regenerated with `npm run cf-typegen`.
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+import { Env } from './types';
+import { Router } from './router';
+import { ResponseFormatter } from './utils/response';
+import { ERROR_CODES, HTTP_STATUS } from './utils/constants';
+import { handleCORS } from './middlewares/cors';
+
+export default {
+	async fetch(request: Request, env: Env): Promise<Response> {
+		const corsResponse = handleCORS(request);
+		if (corsResponse) {
+			return corsResponse;
+		}
+
+		const url = new URL(request.url);
+		const router = new Router(env);
+
+		let response: Response;
+
+		try {
+			if (url.pathname === '/api/moderate' && request.method === 'POST') {
+				response = await router.handleModerateRequest(request);
+			} else if (url.pathname === '/health' || url.pathname === '/') {
+				response = await router.handleHealthCheck();
+			} else {
+				response = ResponseFormatter.error(ERROR_CODES.INVALID_REQUEST, `Route not found: ${url.pathname}`, HTTP_STATUS.NOT_FOUND);
+			}
+		} catch (error) {
+			response = ResponseFormatter.error(ERROR_CODES.INTERNAL_ERROR, 'An unexpected error occurred', HTTP_STATUS.INTERNAL_ERROR);
+		}
+
+		return ResponseFormatter.cors(response);
+	},
+};
