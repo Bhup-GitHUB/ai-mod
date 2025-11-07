@@ -12,7 +12,16 @@ export class ClassificationService {
 			max_tokens: 100,
 		});
 
-		return this.parseClassificationResponse(response.response);
+		let aiResponse: string;
+		if (typeof response === 'string') {
+			aiResponse = response;
+		} else if (response && typeof response === 'object') {
+			aiResponse = (response as any).response || (response as any).text || JSON.stringify(response);
+		} else {
+			aiResponse = String(response);
+		}
+
+		return this.parseClassificationResponse(aiResponse);
 	}
 
 	private buildClassificationPrompt(text: string): string {

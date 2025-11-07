@@ -12,12 +12,16 @@ export class SummarizationService {
 			max_length: summaryLength,
 		});
 
-		const summary = response.summary || response.text || text.slice(0, summaryLength);
+		const summary = response.summary || response.text || (typeof response === 'string' ? response : text.slice(0, summaryLength));
+
+		if (typeof summary !== 'string') {
+			throw new Error('Invalid summarization response');
+		}
 
 		return {
 			summary: summary.trim(),
 			originalLength: text.length,
-			summaryLength: summary.length,
+			summaryLength: summary.trim().length,
 		};
 	}
 

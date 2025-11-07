@@ -9,10 +9,15 @@ export class SentimentService {
 			text: text,
 		});
 
-		const topResult = response[0];
+		const results = Array.isArray(response) ? response : [response];
+		const topResult = results[0] || results;
 
-		const label = this.normalizeLabel(topResult.label);
-		const score = topResult.score;
+		if (!topResult || typeof topResult !== 'object') {
+			throw new Error('Invalid sentiment analysis response');
+		}
+
+		const label = this.normalizeLabel(topResult.label || 'NEUTRAL');
+		const score = topResult.score || 0.5;
 		const confidence = Math.round(score * 100);
 
 		return {
